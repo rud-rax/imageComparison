@@ -12,10 +12,10 @@ DIFFERENT_COMPARE_FILE = r"images\images.png"
 
 # SHAPES IMAGES PATH (TESTING PURPOSE)
 
-CIRCLE_IMAGE = r"shapes/circle.jpg"
-LONG_IMAGE = r"shapes/long_1x3.jpg"
-QUAD_IMAGE = r"quad.jpg"
-TRI_IMAGE = r"shapes/tri_255x217.jpg"
+CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
+LONG_IMAGE = r"shapes_images\long_1x3.jpg"
+QUAD_IMAGE = r"shapes_images\quad.jpg"
+TRI_IMAGE = r"shapes_images\tri_255x217.jpg"
 
 
 # SET BELOW VARIABLE TO FALSE IF YOU DONT WANT TO CHECK FOR IMAGE FILES
@@ -191,6 +191,9 @@ if __name__ == "__main__":
     image1 = ImageObj(QUAD_IMAGE)
     image2 = ImageObj(CIRCLE_IMAGE)
 
+    image2.showImage()
+    # image2.showImage()
+
     # image1.showImage()
     # print(image1.img.shape[0])
     # print(image1.getResolution())
@@ -208,8 +211,8 @@ if __name__ == "__main__":
 
     # IMAGE SUBTRACTION TESTING
 
-    ic = ImageComparison(image1, image2)
-    ic.ImageSubtraction(save_fig=True)
+    # ic = ImageComparison(image1, image2)
+    # ic.ImageSubtraction(save_fig=True)
     # ic.checkImageResolutions()
 
     # MSE TESTING
