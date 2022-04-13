@@ -1,11 +1,22 @@
 import cv2
 import numpy as np
 import os
+from PIL import Image
+
 
 # PATHS TO COMPARE IMAGES
 TEST_FILE = r"images\test1.jpg"
 COMPARE_FILE = r"images\test1c.jpg"
 DIFFERENT_COMPARE_FILE = r"images\images.png"
+
+
+# SHAPES IMAGES PATH (TESTING PURPOSE)
+
+CIRCLE_IMAGE = r"shapes/circle.jpg"
+LONG_IMAGE = r"shapes/long_1x3.jpg"
+QUAD_IMAGE = r"quad.jpg"
+TRI_IMAGE = r"shapes/tri_255x217.jpg"
+
 
 # SET BELOW VARIABLE TO FALSE IF YOU DONT WANT TO CHECK FOR IMAGE FILES
 CHECK_IMAGE_FILES = False
@@ -26,7 +37,7 @@ class DifferentResolutionError(Exception):
 
 
 # IMAGE COMPARISON METHODS
-class Image:
+class ImageObj:
     def __init__(self, img_path=None):
         self.img_path = img_path
         self.img = cv2.imread(self.img_path)
@@ -61,7 +72,7 @@ class Image:
 
 
 class ImageComparison:
-    def __init__(self, img1=None, img2=None):
+    def __init__(self, img1: ImageObj = None, img2: ImageObj = None):
         self.img1 = img1
         self.img2 = img2
 
@@ -80,7 +91,7 @@ class ImageComparison:
             print(e.__doc__)
             return False
 
-    def ImageSubtraction(self):
+    def ImageSubtraction(self, save_fig=False):
 
         if not self.checkImageResolutions():
             self.img1.resizeImage(RESIZE_RESOLUTION)
@@ -95,8 +106,8 @@ class ImageComparison:
         # self.img1 = np.int32(self.img1)
         # self.img2 = np.int32(self.img2)
 
-        img1data = np.asarray(self.img1)
-        img2data = np.asarray(self.img2)
+        img1data = np.asarray(self.img1.img)
+        img2data = np.asarray(self.img2.img)
 
         # image_difference = cv2.subtract(self.img1, self.img2,image_difference)
         # image_difference = cv2.subtract(self.img1, self.img2)
@@ -106,24 +117,29 @@ class ImageComparison:
             wt.writelines(map(str, image_difference))
 
         # cv2.imshow(image_difference)
-        b, g, r = cv2.split(image_difference)
-        print(f"B = {b} , G = {g} , R = {r}")
+
+        canvas = Image.fromarray(image_difference)
+        canvas.show()
+
+        if save_fig:
+            canvas.save(r"images/diff_image1.jpg")
+        # b, g, r = cv2.split(image_difference)
+        # print(f"B = {b} , G = {g} , R = {r}")
 
         # img3 = self.img1 - self.img2
 
         # print(img3)
 
-
-class MSE(ImageComparison):
-    def __init__(self, img1, img2):
-        self.img1 = img1
-        self.img2 = img2
+    # class MSE(ImageComparison):
+    #     def __init__(self, img1, img2):
+    #         self.img1 = img1
+    #         self.img2 = img2
 
     def MeanSquareError(self):
 
-        # if not self.checkImageResolutions():
-        #     self.img1.resizeImage(RESIZE_RESOLUTION)
-        #     self.img2.resizeImage(RESIZE_RESOLUTION)
+        if not self.checkImageResolutions():
+            self.img1.resizeImage(RESIZE_RESOLUTION)
+            self.img2.resizeImage(RESIZE_RESOLUTION)
 
         # print("NEW RESOLUTIONS = ", self.img1.getResolution())
         # print("NEW RESOLUTIONS = ", self.img2.getResolution())
@@ -168,9 +184,12 @@ if __name__ == "__main__":
     if CHECK_IMAGE_FILES:
         checkFile()
 
-    image1 = Image(TEST_FILE)
+    # image1 = ImageObj(TEST_FILE)
 
-    image2 = Image(COMPARE_FILE)
+    # image2 = ImageObj(DIFFERENT_COMPARE_FILE)
+
+    image1 = ImageObj(QUAD_IMAGE)
+    image2 = ImageObj(CIRCLE_IMAGE)
 
     # image1.showImage()
     # print(image1.img.shape[0])
@@ -187,8 +206,12 @@ if __name__ == "__main__":
     # print(image1.getResolution())
     # print(image2.getResolution())
 
-    # ic = ImageComparison(image1, image2)
+    # IMAGE SUBTRACTION TESTING
+
+    ic = ImageComparison(image1, image2)
+    ic.ImageSubtraction(save_fig=True)
     # ic.checkImageResolutions()
-    # ic.ImageSubtraction()
-    ic = MSE(image1, image2)
-    print("MEAN SQUARE ERROR : ", ic.MeanSquareError())
+
+    # MSE TESTING
+    # ic = MSE(image1, image2)
+    # print("MEAN SQUARE ERROR : ", ic.MeanSquareError())
