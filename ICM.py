@@ -8,7 +8,7 @@ COMPARE_FILE = r"images\test1c.jpg"
 DIFFERENT_COMPARE_FILE = r"images\images.png"
 
 # SET BELOW VARIABLE TO FALSE IF YOU DONT WANT TO CHECK FOR IMAGE FILES
-CHECK_IMAGE_FILES = True
+CHECK_IMAGE_FILES = False
 
 
 # CHANGE RESIZING AND SCALING VARIABLES
@@ -86,8 +86,8 @@ class ImageComparison:
             self.img1.resizeImage(RESIZE_RESOLUTION)
             self.img2.resizeImage(RESIZE_RESOLUTION)
 
-        print("NEW RESOLUTIONS = ", self.img1.getResolution())
-        print("NEW RESOLUTIONS = ", self.img2.getResolution())
+        # print("NEW RESOLUTIONS = ", self.img1.getResolution())
+        # print("NEW RESOLUTIONS = ", self.img2.getResolution())
 
         # self.img1 = np.array(self.img1)
         # self.img2 = np.array(self.img2)
@@ -112,6 +112,29 @@ class ImageComparison:
         # img3 = self.img1 - self.img2
 
         # print(img3)
+
+
+class MSE(ImageComparison):
+    def __init__(self, img1, img2):
+        self.img1 = img1
+        self.img2 = img2
+
+    def MeanSquareError(self):
+
+        # if not self.checkImageResolutions():
+        #     self.img1.resizeImage(RESIZE_RESOLUTION)
+        #     self.img2.resizeImage(RESIZE_RESOLUTION)
+
+        # print("NEW RESOLUTIONS = ", self.img1.getResolution())
+        # print("NEW RESOLUTIONS = ", self.img2.getResolution())
+
+        img1 = cv2.cvtColor(self.img1.img, cv2.COLOR_BGR2GRAY)
+        img2 = cv2.cvtColor(self.img2.img, cv2.COLOR_BGR2GRAY)
+
+        err = np.sum((img1.astype("float") - img2.astype("float")) ** 2)
+        err /= float(img1.shape[0] * img1.shape[1])
+
+        return err
 
 
 # CHECKING FILES BEFORE RUNNING THE CODE
@@ -149,14 +172,14 @@ if __name__ == "__main__":
 
     image2 = Image(COMPARE_FILE)
 
-    image1.showImage()
+    # image1.showImage()
     # print(image1.img.shape[0])
-    print(image1.getResolution())
+    # print(image1.getResolution())
 
-    image1.resizeImage(RESIZE_RESOLUTION, scale=150)
-    image1.showImage()
+    # image1.resizeImage(RESIZE_RESOLUTION, scale=150)
+    # image1.showImage()
 
-    print(image1.getResolution())
+    # print(image1.getResolution())
 
     # image1.checkImage()
     # image2.checkImage()
@@ -164,6 +187,8 @@ if __name__ == "__main__":
     # print(image1.getResolution())
     # print(image2.getResolution())
 
-    ic = ImageComparison(image1, image2)
+    # ic = ImageComparison(image1, image2)
     # ic.checkImageResolutions()
-    ic.ImageSubtraction()
+    # ic.ImageSubtraction()
+    ic = MSE(image1, image2)
+    print("MEAN SQUARE ERROR : ", ic.MeanSquareError())

@@ -17,22 +17,23 @@ def mse(imageA, imageB):
 
 
 def compare_images(imageA, imageB, title):
-    # compute the mean squared error and structural similarity
-    # index for the images
+
     m = mse(imageA, imageB)
     s = ssim(imageA, imageB)
-    # setup the figure
+
     fig = plt.figure(title)
     plt.suptitle("MSE: %.2f, SSIM: %.2f" % (m, s))
-    # show first image
+
     ax = fig.add_subplot(1, 2, 1)
+
     plt.imshow(imageA, cmap=plt.cm.gray)
     plt.axis("off")
-    # show the second image
+
     ax = fig.add_subplot(1, 2, 2)
+
     plt.imshow(imageB, cmap=plt.cm.gray)
     plt.axis("off")
-    # show the images
+
     plt.show()
 
 
@@ -55,19 +56,21 @@ print(original.shape)
 shopped = cv2.resize(shopped, (original.shape[1], original.shape[0]))
 
 
-# initialize the figure
 fig = plt.figure("Images")
+
+
 images = ("Original", original), ("Contrast", contrast), ("Photoshopped", shopped)
-# loop over the images
+
 for (i, (name, image)) in enumerate(images):
-    # show the image
+
     ax = fig.add_subplot(1, 3, i + 1)
     ax.set_title(name)
     plt.imshow(image, cmap=plt.cm.gray)
     plt.axis("off")
-# show the figure
+
 plt.show()
-# compare the images
+
+
 # compare_images(original, original, "Original vs. Original")
-# compare_images(original, contrast, "Original vs. Contrast")
-compare_images(original, shopped, "Original vs. Photoshopped")
+compare_images(original, contrast, "Original vs. Contrast")
+# compare_images(original, shopped, "Original vs. Photoshopped")
