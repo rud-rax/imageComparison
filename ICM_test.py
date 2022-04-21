@@ -1,10 +1,10 @@
 from ICM import *
 
 
-CIRCLE_IMAGE = r"shapes/circle.jpg"
-LONG_IMAGE = r"shapes/long_1x3.jpg"
-QUAD_IMAGE = r"quad.jpg"
-TRI_IMAGE = r"shapes/tri_255x217.jpg"
+CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
+LONG_IMAGE = r"shapes_images\long_1x3.jpg"
+QUAD_IMAGE = r"shapes_images\quad.jpg"
+TRI_IMAGE = r"shapes_images\tri_255x217.jpg"
 
 
 def compareUsingImageSubtraction():
@@ -23,7 +23,9 @@ if __name__ == "__main__":
     quad_img = ImageObj(QUAD_IMAGE)
     tri_img = ImageObj(TRI_IMAGE)
 
-    ic = ImageComparison(circle_img, long_img)
+    tri_img.showImage()
+
+    ic = ImageComparison(tri_img, quad_img)
 
     compareUsingImageSubtraction()
     # compareUsingMSE()
