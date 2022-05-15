@@ -43,12 +43,17 @@ class ImageObj:
     def __init__(self, img_path=None):
         self.img_path = img_path
         self.img = cv2.imread(self.img_path)
+        self.shape = None
+        self.getShape()
 
     def checkImage(self):
 
         if not os.path.isfile(self.img_path):
             return False
         return True
+
+    def getShape(self):
+        self.shape = self.img.shape
 
     def getResolution(self):
         try:
@@ -69,6 +74,89 @@ class ImageObj:
 
     def showImage(self):
         cv2.imshow("Image", self.img)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+
+    def cropImage(self, threshold=240):
+
+        cropParam = []
+
+        numImg = np.asarray(self.img)
+
+        # with open("imageData.txt", "w") as imgfile:
+        #     for line in numImg:
+        #         lines = "-".join(list(map(str, line)))
+        #         imgfile.writelines(lines)
+
+        # print(numImg[0])
+
+        # TOP CROP
+        endLoop = False
+
+        for i in range(self.shape[0]):
+            if not endLoop:
+                for j in range(self.shape[1]):
+                    b, g, r = numImg[i][j]
+                    if b <= threshold and g <= threshold and r <= threshold:
+                        print(f"{b} {g} {r} @ {i} {j}")
+                        # self.markPixel(i, j, 10, [255, 0, 0])
+                        cropParam.append((i, j))
+                        endLoop = True
+                        break
+
+        endLoop = False
+        for i in np.arange(self.shape[0] - 1, 0, -1):
+            if not endLoop:
+                for j in np.arange(self.shape[1] - 1, 0, -1):
+                    b, g, r = numImg[i][j]
+                    if b <= threshold and g <= threshold and r <= threshold:
+                        print(f"{b} {g} {r} @ {i} {j}")
+                        # self.markPixel(i, j, 10, [255, 0, 0])
+                        cropParam.append((i, j))
+                        endLoop = True
+                        break
+
+        endLoop = False
+        for j in range(self.shape[1]):
+            if not endLoop:
+                for i in range(self.shape[0]):
+                    b, g, r = numImg[i][j]
+
+                    if b <= threshold and g <= threshold and r <= threshold:
+                        print(f"{b} {g} {r} @ {i} {j}")
+                        # self.markPixel(i, j, 10, [255, 0, 0])
+                        cropParam.append((i, j))
+                        endLoop = True
+                        break
+
+        endLoop = False
+        for j in range(self.shape[1] - 1, 0, -1):
+            if not endLoop:
+                for i in range(self.shape[0] - 1, 0, -1):
+                    b, g, r = numImg[i][j]
+
+                    if b <= threshold and g <= threshold and r <= threshold:
+                        print(f"{b} {g} {r} @ {i} {j}")
+                        # self.markPixel(i, j, 10, [255, 0, 0])
+                        cropParam.append((i, j))
+                        endLoop = True
+                        break
+
+        self.markPixel(cropParam, 10, [255, 0, 0])
+
+    def markPixel(self, points, trad=0, tcolor=[0, 0, 0]):
+
+        # Draw a red circle with zero radius and -1 for filled circle
+
+        for i, j in points:
+            self.img = cv2.circle(
+                self.img, (j, i), radius=trad, color=tcolor, thickness=3
+            )
+        # self.img = cv2.circle(
+        #     self.img, (10, 10), radius=trad, color=tcolor, thickness=3
+        # )
+
+        cv2.imshow("Mark Point", self.img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
