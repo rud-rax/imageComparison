@@ -77,6 +77,24 @@ class ImageObj:
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
+    def checkNegetiveThreshold(self, threshold=50):
+
+        print("DIFFERENCES AT -")
+
+        numImg = np.asarray(self.img)
+        diffList = []
+
+        for i in range(self.shape[0]):
+            for j in range(self.shape[1]):
+                b, g, r = numImg[i][j]
+
+                if b >= threshold or g >= threshold or r >= threshold:
+
+                    print(f"{i} {j}")
+                    diffList.append((i, j))
+
+        return diffList
+
     def cropImage(self, threshold=240):
 
         cropParam = []
@@ -90,7 +108,6 @@ class ImageObj:
 
         # print(numImg[0])
 
-        # TOP CROP
         endLoop = False
 
         for i in range(self.shape[0]):
@@ -144,19 +161,38 @@ class ImageObj:
 
         self.markPixel(cropParam, 10, [255, 0, 0])
 
+        self.cropImage2(
+            (cropParam[0][0], cropParam[1][0]), (cropParam[2][1], cropParam[3][1]), True
+        )
+
     def markPixel(self, points, trad=0, tcolor=[0, 0, 0]):
 
         # Draw a red circle with zero radius and -1 for filled circle
 
         for i, j in points:
-            self.img = cv2.circle(
+            markedImg = cv2.circle(
                 self.img, (j, i), radius=trad, color=tcolor, thickness=3
             )
         # self.img = cv2.circle(
         #     self.img, (10, 10), radius=trad, color=tcolor, thickness=3
         # )
 
-        cv2.imshow("Mark Point", self.img)
+        cv2.imshow("Mark Point", markedImg)
+        cv2.waitKey(0)
+        # cv2.destroyAllWindows()
+
+    def cropImage2(self, start, stop, inplace=False):
+
+        print(start, stop)
+
+        start_i, start_j = start
+        stop_i, stop_j = stop
+
+        croppedImg = self.img[start_i:start_j, stop_i:stop_j]
+        if inplace:
+            self.img = croppedImg
+
+        cv2.imshow("Cropped Image", self.img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
@@ -182,6 +218,9 @@ class ImageComparison:
             return False
 
     def ImageSubtraction(self, save_fig=False):
+
+        self.img1.cropImage(230)
+        self.img2.cropImage(230)
 
         if not self.checkImageResolutions():
             self.img1.resizeImage(RESIZE_RESOLUTION)
@@ -212,7 +251,10 @@ class ImageComparison:
         canvas.show()
 
         if save_fig:
-            canvas.save(r"images/diff_image1.jpg")
+            SAVE_IMG_PATH = r"images/diff_image1.jpg"
+            canvas.save(SAVE_IMG_PATH)
+
+            diffImg = ImageObj(SAVE_IMG_PATH)
         # b, g, r = cv2.split(image_difference)
         # print(f"B = {b} , G = {g} , R = {r}")
 
