@@ -255,7 +255,9 @@ class ImageComparison:
             canvas.save(SAVE_IMG_PATH)
 
             diffImg = ImageObj(SAVE_IMG_PATH)
+
             diffImg.checkNegetiveThreshold()
+            print(diffImg.getResolution())
         # b, g, r = cv2.split(image_difference)
         # print(f"B = {b} , G = {g} , R = {r}")
 
