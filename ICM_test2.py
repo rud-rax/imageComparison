@@ -1,0 +1,203 @@
+from ICM import *
+import matplotlib.pyplot as plt
+import numpy as np
+import cv2
+
+# CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
+# LONG_IMAGE = r"shapes_images\long_1x3.jpg"
+# QUAD_IMAGE = r"shapes_images\quad.jpg"
+# TRI_IMAGE = r"shapes_images\tri_255x217.jpg"
+
+
+# MECH_DRAW1 = r"images\test1.1.jpeg"
+# MECH_DRAW2 = r"images\crptest1.jpeg"
+# MECH_DRAW3 = r"images\images.png"
+
+
+# TEST_FILE = r"images\test1.jpg"
+# COMPARE_FILE = r"images\test1c.jpg"
+# DIFFERENT_COMPARE_FILE = r"images\images.png"
+# DIFFERENT_TEST_FILE_1 = r"images\test1.1.jpeg"
+# DIFFERENT_TEST_FILE_2 = r"images\test1.2.jpeg"
+
+DIFFIMAGE = r"images\diff_image1.jpg"
+
+INDUSTRYSAMPLE1 = r"industrySample/page0.jpg"
+INDUSTRYSAMPLE2 = r"industrySample/page10.jpg"
+
+
+def testImageObjthreshold():
+    img = ImageObj(DIFFIMAGE)
+    img.checkNegetiveThreshold(50)
+
+
+def testImageComparison():
+    if CHECK_IMAGE_FILES:
+        checkFile()
+
+    image1 = ImageObj(TEST_FILE)
+
+    image2 = ImageObj(DIFFERENT_TEST_FILE_2)
+
+    image1.showImage()
+    image2.showImage()
+
+    # IMAGE SUBTRACTION TESTING
+
+    ic = ImageComparison(image1, image2)
+    ic.ImageSubtraction(save_fig=True)
+
+    # MSE TESTING
+
+    print("MEAN SQUARE ERROR : ", ic.MeanSquareError())
+
+
+def testImageResolution():
+
+    # sam1path = INDUSTRYSAMPLE1
+    # sam2path = INDUSTRYSAMPLE2
+
+    # create image objects
+    image1 = ImageObj(INDUSTRYSAMPLE1)
+    image2 = ImageObj(INDUSTRYSAMPLE2)
+
+    # check image resolutions
+    ic = ImageComparison(image1, image2)
+    return ic.checkImageResolutions()
+
+
+def click_event(event, x, y, flags, params):
+    # def click_event(event, x, y, flags, params):
+
+    # checking for left mouse clicks
+    if event == cv2.EVENT_LBUTTONDOWN:
+
+        # displaying the coordinates
+        # on the Shell
+        print(x, " ", y)
+
+        # displaying the coordinates
+        # on the image window
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(img, str(x) + "," + str(y), (x, y), font, 1, (255, 0, 0), 2)
+        cv2.imshow("image", img)
+
+    # checking for right mouse clicks
+    if event == cv2.EVENT_RBUTTONDOWN:
+
+        # displaying the coordinates
+        # on the Shell
+        print(x, " ", y)
+
+        # displaying the coordinates
+        # on the image window
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        b = img[y, x, 0]
+        g = img[y, x, 1]
+        r = img[y, x, 2]
+        cv2.putText(
+            img, str(b) + "," + str(g) + "," + str(r), (x, y), font, 1, (255, 255, 0), 2
+        )
+        cv2.imshow("image", img)
+
+
+def testImageCropping(img1):
+
+    # image1 = ImageObj(INDUSTRYSAMPLE1)
+    # image2 = ImageObj(INDUSTRYSAMPLE2)
+
+    # if not testImageResolution():
+    #     return
+
+    # image1.cropImage2
+    cv2.imshow("image", img1)
+    cv2.setMouseCallback("image", click_event)
+
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
+
+class BlockCoordinates:
+    def __init__(self, p1: list, p2: list):
+        self.x1, self.y1 = p1
+        self.x2, self.y2 = p2
+        # self.type = type
+
+    def calcalate(self):
+        # call for calculating the alternate coordinates
+        return [[self.x2, self.y1], [self.x1, self.y2]]
+
+    # def calLeftSlope(self):
+    #     # call for calculating the TopLeft(p1) and BottomRight(p4) coordinates of the image
+    #     # returns value of p1 and p4 respectively
+
+    #     return [[self.x2, self.y1], [self.x1, self.y2]]
+
+    # def calRightSlope(self):
+    #     # call for calculating the TopRight(p2) and BottomLeft(p3) coordinates of the image
+    #     # returns value of p2 and p3 respectively
+    #     return [[self.x2, self.y1], [self.x1, self.y2]]
+
+
+class ImageBlock:
+    def __init__(self, p1, p2, p3, p4) -> None:
+        self.p1 = p1
+        self.p2 = p2
+        self.p3 = p3
+        self.p4 = p4
+
+    def showPoints(self):
+
+        print(self.p1)
+        print(self.p2)
+        print(self.p3)
+        print(self.p4)
+
+
+def testImageBlock():
+    p2, p3 = [552, 78], [277, 314]
+    bc = BlockCoordinates(p2, p3)
+    p1, p4 = bc.calcalate()
+    # print(p1, p4)
+
+    # bc1 = BlockCoordinates(p1, p4)
+    # print(bc1.calcalate())
+
+    ib = ImageBlock(p1, p2, p3, p4)
+    ib.showPoints()
+
+
+def testImageBlockComparsion():
+    p2, p3 = [962, 309], [558, 667]
+    bc = BlockCoordinates(p2, p3)
+    p1, p4 = bc.calcalate()
+    # print(p1, p4)
+
+    # bc1 = BlockCoordinates(p1, p4)
+    # print(bc1.calcalate())
+
+    ib = ImageBlock(p1, p2, p3, p4)
+    ib.showPoints()
+
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    img2 = ImageObj(INDUSTRYSAMPLE2)
+
+    img1.cropImage2([p2[1], p3[1]], [p3[0], p2[0]], True)
+    img2.cropImage2([p2[1], p3[1]], [p3[0], p2[0]], True)
+
+    ic = ImageComparison(img1, img2)
+    ic.ImageSubtraction()
+
+
+if __name__ == "__main__":
+
+    # testImageComparison()
+    # testImageResolution()
+
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img = img1.img
+    # testImageCropping(img)
+
+    # testImageBlock()
+
+    testImageBlockComparsion()

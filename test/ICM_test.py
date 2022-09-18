@@ -1,5 +1,8 @@
-from ICM import *
+import sys
 
+sys.path.insert(0, "../../imageComparison")
+
+from ICM import *
 
 MAINFILE = ""
 COMPAREFILE = ""

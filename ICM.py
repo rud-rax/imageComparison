@@ -7,17 +7,17 @@ from PIL import Image
 # PATHS TO COMPARE IMAGES
 TEST_FILE = r"images\test1.jpg"
 COMPARE_FILE = r"images\test1c.jpg"
-DIFFERENT_COMPARE_FILE = r"images\images.png"
-DIFFERENT_TEST_FILE_1 = r"images\test1.1.jpeg"
+# DIFFERENT_COMPARE_FILE = r"images\images.png"
+# DIFFERENT_TEST_FILE_1 = r"images\test1.1.jpeg"
 DIFFERENT_TEST_FILE_2 = r"images\test1.2.jpeg"
 
 
 # SHAPES IMAGES PATH (TESTING PURPOSE)
 
-CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
-LONG_IMAGE = r"shapes_images\long_1x3.jpg"
-QUAD_IMAGE = r"shapes_images\quad.jpg"
-TRI_IMAGE = r"shapes_images\tri_255x217.jpg"
+# CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
+# LONG_IMAGE = r"shapes_images\long_1x3.jpg"
+# QUAD_IMAGE = r"shapes_images\quad.jpg"
+# TRI_IMAGE = r"shapes_images\tri_255x217.jpg"
 
 
 # SET BELOW VARIABLE TO FALSE IF YOU DONT WANT TO CHECK FOR IMAGE FILES
@@ -192,7 +192,8 @@ class ImageObj:
         if inplace:
             self.img = croppedImg
 
-        cv2.imshow("Cropped Image", self.img)
+        cv2.imshow("Cropped Image", croppedImg)
+        cv2.imshow("Image", self.img)
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
@@ -219,8 +220,8 @@ class ImageComparison:
 
     def ImageSubtraction(self, save_fig=False):
 
-        self.img1.cropImage(230)
-        self.img2.cropImage(230)
+        # self.img1.cropImage(230)
+        # self.img2.cropImage(230)
 
         if not self.checkImageResolutions():
             self.img1.resizeImage(RESIZE_RESOLUTION)
