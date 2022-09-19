@@ -186,13 +186,18 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
     # img1 = ImageObj(INDUSTRYSAMPLE1)
     # img2 = ImageObj(INDUSTRYSAMPLE2)
 
-    img1.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], True)
-    img2.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], True)
+    img1 = img1.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], False)
+    # img2 = img2.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], False)
 
-    ic = ImageComparison(img1, img2)
+    img1 = ImageObj(img=img1)
+    img1.showImage(cv2.WINDOW_AUTOSIZE)
+    # img2 = ImageObj(img=img2)
+
+    # ic = ImageComparison(img1, img2)
+    # ic.showImages()
 
     # ic.imageSubtraction()
-    print(ic.meanSquareError())
+    # print(ic.meanSquareError())
 
 
 def testImageBlock2(img1, img2):
@@ -205,6 +210,7 @@ def testImageBlock2(img1, img2):
         [2126, 79],
         [2519, 79],
         [2913, 79],
+        [3229, 79],
     ]
     rows = [[277, 315], [277, 686], [277, 1055], [277, 1426], [277, 1794], [277, 2126]]
     row = 1
@@ -214,7 +220,7 @@ def testImageBlock2(img1, img2):
         pn = pr
         for pc in columns:
             ib = ImageBlock(pn, pc)
-            # testImageBlockComparsion(img1, img2, ib)
+            testImageBlockComparsion(img1, img2, ib)
             # break
 
             pn = ib.calculate()[1]
@@ -233,12 +239,12 @@ if __name__ == "__main__":
     # testImageComparison()
     # testImageResolution()
 
+    # to find out coordinates on image
     # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img1.showImage()
     # img = img1.img
     # testImageCropping(img)
-    # click_event()
 
+    # here
     img1 = ImageObj(INDUSTRYSAMPLE1)
     img2 = ImageObj(INDUSTRYSAMPLE2)
     testImageBlock2(img1, img2)

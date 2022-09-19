@@ -40,9 +40,11 @@ class DifferentResolutionError(Exception):
 
 # IMAGE COMPARISON METHODS
 class ImageObj:
-    def __init__(self, img_path=None):
+    def __init__(self, img_path=None, img=None):
         self.img_path = img_path
-        self.img = cv2.imread(self.img_path)
+        self.img = img
+        if self.img_path:
+            self.img = cv2.imread(self.img_path)
         self.shape = None
         self.getShape()
 
@@ -72,8 +74,8 @@ class ImageObj:
         elif reso:
             self.img = cv2.resize(self.img, reso)
 
-    def showImage(self):
-        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+    def showImage(self, window_size_param=cv2.WINDOW_NORMAL):
+        cv2.namedWindow("Image", window_size_param)
         cv2.imshow("Image", self.img)
 
         cv2.waitKey(0)
@@ -183,7 +185,9 @@ class ImageObj:
         cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
-    def cropImage2(self, start, stop, inplace=False, showbool=False):
+    def cropImage2(
+        self, start: list, stop: list, inplace: bool = False, showbool: bool = False
+    ):
 
         print(start, stop)
 
@@ -198,6 +202,8 @@ class ImageObj:
 
         if inplace:
             self.img = croppedImg
+
+        return croppedImg
         # cv2.imshow("Image", self.img)
         # cv2.waitKey(0)
         # cv2.destroyAllWindows()
@@ -207,6 +213,13 @@ class ImageComparison:
     def __init__(self, img1: ImageObj, img2: ImageObj):
         self.img1 = img1
         self.img2 = img2
+
+    def showImages(self):
+        cv2.imshow("Image", self.img1)
+        cv2.imshow("Image", self.img2)
+
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
 
     def checkImageResolutions(self):
         try:
