@@ -73,7 +73,9 @@ class ImageObj:
             self.img = cv2.resize(self.img, reso)
 
     def showImage(self):
+        cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
         cv2.imshow("Image", self.img)
+
         cv2.waitKey(0)
         cv2.destroyAllWindows()
 
@@ -181,7 +183,7 @@ class ImageObj:
         cv2.waitKey(0)
         # cv2.destroyAllWindows()
 
-    def cropImage2(self, start, stop, inplace=False):
+    def cropImage2(self, start, stop, inplace=False, showbool=False):
 
         print(start, stop)
 
@@ -189,13 +191,16 @@ class ImageObj:
         stop_i, stop_j = stop
 
         croppedImg = self.img[start_i:start_j, stop_i:stop_j]
+        if showbool:
+            self.showImage()
+
+            cv2.imshow("Cropped Image", croppedImg)
+
         if inplace:
             self.img = croppedImg
-
-        cv2.imshow("Cropped Image", croppedImg)
-        cv2.imshow("Image", self.img)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        # cv2.imshow("Image", self.img)
+        # cv2.waitKey(0)
+        # cv2.destroyAllWindows()
 
 
 class ImageComparison:
@@ -208,7 +213,7 @@ class ImageComparison:
             if self.img1.checkImage() and self.img2.checkImage():
 
                 if self.img1.getResolution() == self.img2.getResolution():
-                    print("Images have the same Resolution !")
+                    # print("Images have the same Resolution !")
                     return True
 
                 else:
@@ -218,7 +223,7 @@ class ImageComparison:
             print(e.__doc__)
             return False
 
-    def ImageSubtraction(self, save_fig=False):
+    def imageSubtraction(self, save_fig=False):
 
         # self.img1.cropImage(230)
         # self.img2.cropImage(230)
@@ -243,8 +248,8 @@ class ImageComparison:
         # image_difference = cv2.subtract(self.img1, self.img2)
         image_difference = cv2.subtract(img1data, img2data)
 
-        with open(r"imagearrayfile.txt", "w") as wt:
-            wt.writelines(map(str, image_difference))
+        # with open(r"imagearrayfile.txt", "w") as wt:
+        #     wt.writelines(map(str, image_difference))
 
         # cv2.imshow(image_difference)
 
@@ -266,7 +271,7 @@ class ImageComparison:
 
         # print(img3)
 
-    def MeanSquareError(self):
+    def meanSquareError(self):
 
         if not self.checkImageResolutions():
             self.img1.resizeImage(RESIZE_RESOLUTION)
