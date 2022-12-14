@@ -1,4 +1,4 @@
-from ICM import *
+from ICM import * 
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -25,6 +25,7 @@ DIFFIMAGE = r"images\diff_image1.jpg"
 INDUSTRYSAMPLE1 = r"industrySample/page0.jpg"
 INDUSTRYSAMPLE2 = r"industrySample/page10.jpg"
 
+BLOCKSIZE = 50
 
 def testImageObjthreshold():
     img = ImageObj(DIFFIMAGE)
@@ -66,7 +67,7 @@ def testImageResolution():
     return ic.checkImageResolutions()
 
 
-def click_event(event, x, y, flags, params):
+def click_event(img , event, x, y, flags, params):
     # def click_event(event, x, y, flags, params):
 
     # checking for left mouse clicks
@@ -187,32 +188,59 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
     # img2 = ImageObj(INDUSTRYSAMPLE2)
 
     img1 = img1.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], False)
-    # img2 = img2.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], False)
+    img2 = img2.cropImage2([ib.p2[1], ib.p1[1]], [ib.p1[0], ib.p2[0]], False)
 
     img1 = ImageObj(img=img1)
-    img1.showImage(cv2.WINDOW_AUTOSIZE)
-    # img2 = ImageObj(img=img2)
+    # img1.showImage(cv2.WINDOW_AUTOSIZE)
+    img2 = ImageObj(img=img2)
 
-    # ic = ImageComparison(img1, img2)
+    ic = ImageComparison(img1, img2)
+
+    ic.imageSubtraction()
     # ic.showImages()
-
-    # ic.imageSubtraction()
     # print(ic.meanSquareError())
+
+    mse = int(ic.meanSquareError())
+
+    if mse :
+        print("THERE IS A DIFFERENCE")
+        ic.showImages()
+    else :
+        print("NO DIFFERENCE AT ALL")
+
+
 
 
 def testImageBlock2(img1, img2):
 
-    columns = [
-        [551, 79],
-        [944, 79],
-        [1337, 79],
-        [1733, 79],
-        [2126, 79],
-        [2519, 79],
-        [2913, 79],
-        [3229, 79],
-    ]
-    rows = [[277, 315], [277, 686], [277, 1055], [277, 1426], [277, 1794], [277, 2126]]
+    # columns = [
+    #     [551, 79],
+    #     [944, 79],
+    #     [1337, 79],
+    #     [1733, 79],
+    #     [2126, 79],
+    #     [2519, 79],
+    #     [2913, 79],
+    #     [3229, 79],
+    # ]
+    # rows = [[277, 315], [277, 686], [277, 1055], [277, 1426], [277, 1794], [277, 2126]]
+
+
+    columns = []
+    rows = []
+
+    for x in range(277 , 3229 , BLOCKSIZE) :
+        columns.append([x , BLOCKSIZE])
+
+    for y in range(79 , 2126 , BLOCKSIZE) :
+        rows.append([BLOCKSIZE , y])
+
+    columns.append([3229 , BLOCKSIZE])
+    rows.append([BLOCKSIZE , y])
+
+    
+
+
     row = 1
     col = 1
     for pr in rows:

@@ -50,9 +50,10 @@ class ImageObj:
 
     def checkImage(self):
 
-        if not os.path.isfile(self.img_path):
-            return False
-        return True
+        # if not os.path.isfile(self.img_path):
+        #     return False
+        # return True
+        pass
 
     def getShape(self):
         self.shape = self.img.shape
@@ -215,8 +216,8 @@ class ImageComparison:
         self.img2 = img2
 
     def showImages(self):
-        cv2.imshow("Image", self.img1)
-        cv2.imshow("Image", self.img2)
+        cv2.imshow("Image1", self.img1.img)
+        cv2.imshow("Image2", self.img2.img)
 
         cv2.waitKey(0)
         cv2.destroyAllWindows()
@@ -241,9 +242,9 @@ class ImageComparison:
         # self.img1.cropImage(230)
         # self.img2.cropImage(230)
 
-        if not self.checkImageResolutions():
-            self.img1.resizeImage(RESIZE_RESOLUTION)
-            self.img2.resizeImage(RESIZE_RESOLUTION)
+        # if not self.checkImageResolutions():
+        #     self.img1.resizeImage(RESIZE_RESOLUTION)
+        #     self.img2.resizeImage(RESIZE_RESOLUTION)
 
         # print("NEW RESOLUTIONS = ", self.img1.getResolution())
         # print("NEW RESOLUTIONS = ", self.img2.getResolution())
@@ -260,6 +261,7 @@ class ImageComparison:
         # image_difference = cv2.subtract(self.img1, self.img2,image_difference)
         # image_difference = cv2.subtract(self.img1, self.img2)
         image_difference = cv2.subtract(img1data, img2data)
+        # cv2.imwrite(f"images/imagediff",image_difference)
 
         # with open(r"imagearrayfile.txt", "w") as wt:
         #     wt.writelines(map(str, image_difference))
