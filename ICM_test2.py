@@ -1,4 +1,4 @@
-from ICM import * 
+from ICM import *
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
@@ -25,7 +25,13 @@ DIFFIMAGE = r"images\diff_image1.jpg"
 INDUSTRYSAMPLE1 = r"industrySample/page0.jpg"
 INDUSTRYSAMPLE2 = r"industrySample/page10.jpg"
 
+# INDUSTRYSAMPLE1 = r"industrySample/1.jpg"
+# INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
+
+
 BLOCKSIZE = 50
+MSE_THRESHOLD = 1000
+
 
 def testImageObjthreshold():
     img = ImageObj(DIFFIMAGE)
@@ -67,7 +73,7 @@ def testImageResolution():
     return ic.checkImageResolutions()
 
 
-def click_event(img , event, x, y, flags, params):
+def click_event(img, event, x, y, flags, params):
     # def click_event(event, x, y, flags, params):
 
     # checking for left mouse clicks
@@ -202,13 +208,15 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
 
     mse = int(ic.meanSquareError())
 
-    if mse :
+    if mse:
         print("THERE IS A DIFFERENCE")
+        print(mse)
+        # TOGGLE FOR SHOW IMAGES
         ic.showImages()
-    else :
+        print(img1.shape)
+
+    else:
         print("NO DIFFERENCE AT ALL")
-
-
 
 
 def testImageBlock2(img1, img2):
@@ -225,21 +233,17 @@ def testImageBlock2(img1, img2):
     # ]
     # rows = [[277, 315], [277, 686], [277, 1055], [277, 1426], [277, 1794], [277, 2126]]
 
-
     columns = []
     rows = []
 
-    for x in range(277 , 3229 , BLOCKSIZE) :
-        columns.append([x , BLOCKSIZE])
+    for x in range(277, 3229, BLOCKSIZE):
+        columns.append([x, BLOCKSIZE])
 
-    for y in range(79 , 2126 , BLOCKSIZE) :
-        rows.append([BLOCKSIZE , y])
+    for y in range(79, 2126, BLOCKSIZE):
+        rows.append([BLOCKSIZE, y])
 
-    columns.append([3229 , BLOCKSIZE])
-    rows.append([BLOCKSIZE , y])
-
-    
-
+    columns.append([3229, BLOCKSIZE])
+    rows.append([BLOCKSIZE, y])
 
     row = 1
     col = 1
@@ -275,7 +279,13 @@ if __name__ == "__main__":
     # here
     img1 = ImageObj(INDUSTRYSAMPLE1)
     img2 = ImageObj(INDUSTRYSAMPLE2)
+    # imgcheck = np.asarray(img1)
+    # print(imgcheck)
+    # highlight = np.zeros((img1.shape), dtype=np.int8)
     testImageBlock2(img1, img2)
+
+    print(img1.shape)
+    print(img2.shape)
 
     # testImageBlockComparsion()
 

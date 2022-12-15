@@ -1,3 +1,2 @@
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img = img1.img
-    # testImageCropping(img)
+NDUSTRYSAMPLE1 = r"industrySample/1.jpg"
+INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
