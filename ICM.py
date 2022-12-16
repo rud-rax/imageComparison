@@ -24,7 +24,7 @@ DIFFERENT_TEST_FILE_2 = r"images\test1.2.jpeg"
 CHECK_IMAGE_FILES = False
 
 
-# CHANGE RESIZING AND SCALING VARIABLES
+# CHANGE RESIZING AND SCALING VARIABLESimg_path
 RESIZE_RESOLUTION = (1000, 650)
 SCALE_PERCENTAGE = 150
 
@@ -269,7 +269,7 @@ class ImageComparison:
         # cv2.imshow(image_difference)
 
         canvas = Image.fromarray(image_difference)
-        canvas.show()
+        # canvas.show()
 
         if save_fig:
             SAVE_IMG_PATH = r"images/diff_image1.jpg"
@@ -278,7 +278,7 @@ class ImageComparison:
             diffImg = ImageObj(SAVE_IMG_PATH)
 
             diffImg.checkNegetiveThreshold()
-            print(diffImg.getResolution())
+            #print(diffImg.getResolution())
         # b, g, r = cv2.split(image_difference)
         # print(f"B = {b} , G = {g} , R = {r}")
 

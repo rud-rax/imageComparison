@@ -1,9 +1,7 @@
-from ICM import *
+from ICM import * 
 import matplotlib.pyplot as plt
 import numpy as np
 import cv2
-import concurrent.futures
-import time
 
 # CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
 # LONG_IMAGE = r"shapes_images\long_1x3.jpg"
@@ -26,20 +24,8 @@ DIFFIMAGE = r"images\diff_image1.jpg"
 
 INDUSTRYSAMPLE1 = r"industrySample/page0.jpg"
 INDUSTRYSAMPLE2 = r"industrySample/page10.jpg"
-i1=cv2.imread(INDUSTRYSAMPLE1)
-
-
-# INDUSTRYSAMPLE1 = r"industrySample/1.jpg"
-# INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
-
 
 BLOCKSIZE = 200
-MSE_THRESHOLD = 1000
-
-def inOne(cordinates):
-   pass
-
-
 def imageContour(img1, img2):
     diff = cv2.absdiff(img1, img2)
     grayscale = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
@@ -77,7 +63,6 @@ def imageContour(img1, img2):
     #cv2.imshow("DST", dst)
     return x, y, w, h
 
-
 def testImageObjthreshold():
     img = ImageObj(DIFFIMAGE)
     img.checkNegetiveThreshold(50)
@@ -101,7 +86,7 @@ def testImageComparison():
 
     # MSE TESTING
 
-    #print("MEAN SQUARE ERROR : ", ic.MeanSquareError())
+    print("MEAN SQUARE ERROR : ", ic.MeanSquareError())
 
 
 def testImageResolution():
@@ -118,15 +103,15 @@ def testImageResolution():
     return ic.checkImageResolutions()
 
 
-# def click_event(img, event, x, y, flags, params):
-def click_event(event, x, y, flags, params):
+def click_event(img , event, x, y, flags, params):
+    # def click_event(event, x, y, flags, params):
 
     # checking for left mouse clicks
     if event == cv2.EVENT_LBUTTONDOWN:
 
         # displaying the coordinates
         # on the Shell
-        #print(x, " ", y)
+        print(x, " ", y)
 
         # displaying the coordinates
         # on the image window
@@ -139,7 +124,7 @@ def click_event(event, x, y, flags, params):
 
         # displaying the coordinates
         # on the Shell
-        #print(x, " ", y)
+        print(x, " ", y)
 
         # displaying the coordinates
         # on the image window
@@ -278,7 +263,6 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
         pass
         #print("NO DIFFERENCE AT ALL")
 
-
 def testImageBlock2(img1, img2):
 
     # columns = [
@@ -293,70 +277,42 @@ def testImageBlock2(img1, img2):
     # ]
     # rows = [[277, 315], [277, 686], [277, 1055], [277, 1426], [277, 1794], [277, 2126]]
 
+
     columns = []
     rows = []
 
-    differences = []
+    for x in range(277 , 3229 , BLOCKSIZE) :
+        columns.append([x , BLOCKSIZE])
 
-    #print(img1.shape)
-    for x in range(0, img1.shape[1], BLOCKSIZE):
-        columns.append([x, 0])
+    for y in range(79 , 2126 , BLOCKSIZE) :
+        rows.append([BLOCKSIZE , y])
 
-    for y in range(0, img1.shape[0], BLOCKSIZE):
-        rows.append([0, y])
+    columns.append([3229 , BLOCKSIZE])
+    rows.append([BLOCKSIZE , y])
 
-    columns.append([img1.shape[1], 0])
-    rows.append([0, img1.shape[0]])
+    
 
-    columns = columns[1:]
-    rows = rows[1:]
 
-    #print(columns)
-    #print(rows)
-    # return
     row = 1
     col = 1
-    threads = []
+    for pr in rows:
+        new_columns = []
+        pn = pr
+        for pc in columns:
+            ib = ImageBlock(pn, pc)
+            testImageBlockComparsion(img1, img2, ib)
+            # break
 
-    start = time.perf_counter()
+            pn = ib.calculate()[1]
+            new_columns.append(pn)
 
-    with concurrent.futures.ThreadPoolExecutor() as executer:
+            print(f"{row} {col} = {pn}")
+            col += 1
 
-        for pr in rows:
-            new_columns = []
-            pn = pr
-            for pc in columns:
-                ib = ImageBlock(pn, pc)
-                thread = executer.submit(testImageBlockComparsion, img1, img2, ib)
-                threads.append(thread)
+        print(columns)
+        row += 1
+        columns = new_columns
 
-                # difference_coordinates = thread.result()
-                # if difference_coordinates:
-                #     print(difference_coordinates)
-                #     differences.append(difference_coordinates)
-
-                pn = ib.calculate()[1]
-                new_columns.append(pn)
-
-                #print(f"{row} {col} = {pn}")
-                col += 1
-
-            # print(columns)
-            row += 1
-            columns = new_columns
-
-    stop = time.perf_counter()
-
-    for thread in threads:
-        difference_coordinates = thread.result()
-        if difference_coordinates:
-            #print(difference_coordinates)
-            differences.append(difference_coordinates)
-
-    print(differences)
-    
-    print(f"Time taken {round(stop - start , 2)} seconds. ")
-    return differences
 
 if __name__ == "__main__":
 
@@ -371,28 +327,7 @@ if __name__ == "__main__":
     # here
     img1 = ImageObj(INDUSTRYSAMPLE1)
     img2 = ImageObj(INDUSTRYSAMPLE2)
-    cordinates=testImageBlock2(img1, img2)
-    for i in range (len(cordinates)):
-       
-       y1=cordinates[i][0][0]
-       y2=cordinates[i][0][1]
-       x1=cordinates[i][1][0]
-       x2=cordinates[i][1][1]
-       print(f"X1 = {x1} X2 = {x2} Y1 = {y1} Y2 = {y2}")
-       #img1.img
-       
-       
-       dst=cv2.rectangle(img1.img,(x1,y1),(x2,y2),(0,0,0),10)
-    cv2.namedWindow("final",cv2.WINDOW_NORMAL)
-    cv2.imshow("final",img1.img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    # imgcheck = np.asarray(img1)
-    # print(imgcheck)
-    # highlight = np.zeros((img1.shape), dtype=np.int8)
-
-    # print(img1.shape)
-    # print(img2.shape)
+    testImageBlock2(img1, img2)
 
     # testImageBlockComparsion()
 
