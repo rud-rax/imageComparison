@@ -1,6 +1,7 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import qpageview
 import sys
 import os
 
@@ -40,6 +41,7 @@ class imgdrop1(QWidget):
         
         layout.addWidget(self.imageLabel2)
         self.imageLabel2.setText("\n\n Drop Created Image Here \n\n")
+        self.imageLabel2.hide()
         
         self.confirmButton = QPushButton("Confirm")
         layout.addWidget(self.confirmButton, 1)
@@ -79,9 +81,15 @@ class imgdrop1(QWidget):
                     self.img1 = file_path
             
             elif os.path.splitext(file_path)[-1].lower() == ".pdf":
+                if self.count == 1:
+                    self.imageLabel2.setText("\n\n PDF preview is unavailable. \n Filepath: " + file_path + "\n")
+                    self.img2 = file_path
+                else :
+                    self.imageLabel1.setText("\n\n PDF preview is unavailable. \n Filepath: " + file_path + "\n")
+                    self.img1 = file_path
                 self.set_pdf(file_path)
                 print("connect to pdf2image class")
-                self.close()
+                # self.close()
 
             else:
                 msg = QMessageBox()
@@ -95,40 +103,33 @@ class imgdrop1(QWidget):
             self.confirmButton.setEnabled(True)
             self.confirmButton.clicked.connect(self.Confirm)
 
-            if self.img2 != "":
-                print (self.img1, self.img2)
-                self.compareButton.clicked.connect(self.Compare)
-
             event.accept()
+
         else:
             event.Ignore()
 
     def set_image(self, label, file_path):
         label.setPixmap(QPixmap(file_path))
 
-    # def set_pdf(self, file_path):
-    #     ;
+    def set_pdf(self, file_path):
+        v = qpageview.View()
+        v.show()
+        v.loadPdf(file_path)
+
 
     def Confirm(self):
 
-        # self.confirmButton.hide()
-        # self.compareButton.show()
-        # self.compareButton.setEnabled(False)
-        # self.imageLabel2.show()
-
-
-
         if self.count == 1:
-            self.imageLabel2.show()
-            self.confirmButton.setEnabled(False)
+            self.imageLabel1.show()
+            self.confirmButton.hide()
             self.compareButton.show()
-            self.compareButton.setEnabled(True)
             self.compareButton.clicked.connect(self.Compare)
 
         else:
-            # self.imageLabel1.clear()
             self.count += 1
-            # print(self.count)
+            self.confirmButton.setEnabled(False)
+            self.imageLabel1.hide()
+            self.imageLabel2.show()
 
     def Compare(self):
         print("img1 = ",self.img1)
