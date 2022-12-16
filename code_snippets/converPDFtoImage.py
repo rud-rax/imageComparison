@@ -1,6 +1,6 @@
 from pdf2image import convert_from_path
 
-SAMPLE1 = r"industrySample/sample2.2.pdf"
+SAMPLE1 = r"industrySample/sample2.pdf"
 
 
 def convertPDF2JPG(filepath, savename=""):
@@ -13,4 +13,4 @@ def convertPDF2JPG(filepath, savename=""):
         images[i].save("industrySample/" + savename + str(i) + ".jpg", "JPEG")
 
 
-convertPDF2JPG(SAMPLE1)
+convertPDF2JPG(SAMPLE1, "page")

@@ -13,7 +13,7 @@ INDUSTRYSAMPLE2 = r"industrySample/drawing10.jpg"
 # INDUSTRYSAMPLE1 = r"industrySample/1.jpg"
 # INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
 
-REDUCTION_SCALE = 1
+REDUCTION_SCALE = 2
 
 img1 = cv.imread(INDUSTRYSAMPLE1)
 img2 = cv.imread(INDUSTRYSAMPLE2)
