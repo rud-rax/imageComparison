@@ -31,7 +31,7 @@ INDUSTRYSAMPLE2 = r"industrySample/page10.jpg"
 # INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
 
 
-BLOCKSIZE = 50
+BLOCKSIZE = 200
 MSE_THRESHOLD = 1000
 
 
@@ -341,14 +341,14 @@ if __name__ == "__main__":
     # testImageResolution()
 
     # to find out coordinates on image
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img = img1.img
-    # testImageCropping(img)
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    img = img1.img
+    testImageCropping(img)
 
     # here
-    img1 = ImageObj(INDUSTRYSAMPLE1)
-    img2 = ImageObj(INDUSTRYSAMPLE2)
-    testImageBlock2(img1, img2)
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img2 = ImageObj(INDUSTRYSAMPLE2)
+    # testImageBlock2(img1, img2)
     # imgcheck = np.asarray(img1)
     # print(imgcheck)
     # highlight = np.zeros((img1.shape), dtype=np.int8)

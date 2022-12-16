@@ -1,2 +1,3 @@
-NDUSTRYSAMPLE1 = r"industrySample/1.jpg"
-INDUSTRYSAMPLE2 = r"industrySample/2.jpg"
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img2 = ImageObj(INDUSTRYSAMPLE2)
+    # testImageBlock2(img1, img2)
