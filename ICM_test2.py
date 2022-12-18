@@ -36,8 +36,42 @@ i1=cv2.imread(INDUSTRYSAMPLE1)
 BLOCKSIZE = 200
 MSE_THRESHOLD = 1000
 
-def inOne(cordinates):
-   pass
+def inOne(cordinates,img1,img2):
+   #print(cordinates)
+   for i in range (len(cordinates)):
+       #converting images to pixels
+       pixel_array1=np.asarray(img1)
+       pixel_array2=np.asarray(img2)
+       
+       y1=cordinates[i][0][0]
+       y2=cordinates[i][0][1]
+       x1=cordinates[i][1][0]
+       x2=cordinates[i][1][1]
+       
+       dst=cv2.rectangle(img1,(x1,y1),(x2,y2),(0,0,0),10)
+       dst=cv2.rectangle(img2,(x1,y1),(x2,y2),(0,0,0),10)
+       pixel_array1[y1:y2,x1:x2,0]=0
+       pixel_array2[y1:y2,x1:x2,0]=0
+       
+       
+       
+   #print(img1.shape[:2])
+   #pixel_array=np.asarray(img1)
+   
+   
+   #zeros = np.zeros(img1.shape[:2], dtype="uint8")
+   #(B,G,R)=cv2.split(dst)
+   #G[x1 : x2 , y1 : y2] = 0
+   cv2.namedWindow("Image1",cv2.WINDOW_NORMAL)
+   cv2.namedWindow("Image2",cv2.WINDOW_NORMAL)
+   cv2.imshow("Image1",img1)
+   cv2.imshow("Image2",img2)
+   cv2.waitKey(0)
+   cv2.destroyAllWindows()
+       
+    
+   
+   
 
 
 def imageContour(img1, img2):
@@ -45,35 +79,35 @@ def imageContour(img1, img2):
     grayscale = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
 
     gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
-    print("Image Resolution1 = ", img1.shape)
+    #print("Image Resolution1 = ", img1.shape)
 
     blurr = cv2.GaussianBlur(gray, (3, 3), 0)
-    print("Image Resolution2 = ", img1.shape)
+    #print("Image Resolution2 = ", img1.shape)
 
     _, thresh = cv2.threshold(blurr, 10, 255, cv2.THRESH_BINARY)
-    print("Image Resolution 3= ", img1.shape)
+    #("Image Resolution 3= ", img1.shape)
 
     dilated = cv2.erode(thresh, None, iterations=3)
 
     # Finding Contour:
     contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
-    print("Image Resolution4 = ", img1.shape)
+    #print("Image Resolution4 = ", img1.shape)
 
     dst = cv2.drawContours(img1, contours, -1, (127, 127, 127), 2)
-    print("Image Resolution5 = ", img1.shape)
+    #print("Image Resolution5 = ", img1.shape)
 
 
     for contour in contours:
         # print("p")
         (x, y, w, h) = cv2.boundingRect(contour)
-        print("Image Resolution6= ",img1.shape)
+        #print("Image Resolution6= ",img1.shape)
          
 
         if cv2.contourArea(contour) < 100:
             continue
         dst = cv2.rectangle(img2, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
-    print("Image Resolution7 = ", img1.shape)
+    #print("Image Resolution7 = ", img1.shape)
     #cv2.imshow("DST", dst)
     return x, y, w, h
 
@@ -266,9 +300,9 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
         # check mse
 
         # TOGGLE FOR SHOW IMAGES
-        print("Image Resolution in blockcomp= ", img1.shape)
+        #print("Image Resolution in blockcomp= ", img1.shape)
 
-        ic.showImages()
+        #ic.showImages()
 
         #return [ib.p2[1] + dst[0], ib.p1[1]], [ib.p1[0] + dst[1], ib.p2[0]]
 
@@ -353,7 +387,7 @@ def testImageBlock2(img1, img2):
             #print(difference_coordinates)
             differences.append(difference_coordinates)
 
-    print(differences)
+    #print(differences)
     
     print(f"Time taken {round(stop - start , 2)} seconds. ")
     return differences
@@ -372,22 +406,9 @@ if __name__ == "__main__":
     img1 = ImageObj(INDUSTRYSAMPLE1)
     img2 = ImageObj(INDUSTRYSAMPLE2)
     cordinates=testImageBlock2(img1, img2)
-    for i in range (len(cordinates)):
-       
-       y1=cordinates[i][0][0]
-       y2=cordinates[i][0][1]
-       x1=cordinates[i][1][0]
-       x2=cordinates[i][1][1]
-       print(f"X1 = {x1} X2 = {x2} Y1 = {y1} Y2 = {y2}")
-       #img1.img
-       
-       
-       dst=cv2.rectangle(img1.img,(x1,y1),(x2,y2),(0,0,0),10)
-    cv2.namedWindow("final",cv2.WINDOW_NORMAL)
-    cv2.imshow("final",img1.img)
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-    # imgcheck = np.asarray(img1)
+    #All diff in one image
+    inOne(cordinates,img1.img,img2.img)
+    #imgcheck = np.asarray(img1)
     # print(imgcheck)
     # highlight = np.zeros((img1.shape), dtype=np.int8)
 
