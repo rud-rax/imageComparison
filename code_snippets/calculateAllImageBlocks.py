@@ -33,3 +33,23 @@ print(len(shade))
 
 
 # CONVERT NP ARRAY BACK TO IMAGE
+
+
+
+# class BlockCoordinates:
+#     def __init__(self, p1: list, p2: list):
+#         self.x1, self.y1 = p1
+#         self.x2, self.y2 = p2
+#         # self.type = type
+
+
+# def calLeftSlope(self):
+#     # call for calculating the TopLeft(p1) and BottomRight(p4) coordinates of the image
+#     # returns value of p1 and p4 respectively
+
+#     return [[self.x2, self.y1], [self.x1, self.y2]]
+
+# def calRightSlope(self):
+#     # call for calculating the TopRight(p2) and BottomLeft(p3) coordinates of the image
+#     # returns value of p2 and p3 respectively
+#     return [[self.x2, self.y1], [self.x1, self.y2]]

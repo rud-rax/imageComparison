@@ -100,76 +100,8 @@ def testImageResolution():
     return ic.checkImageResolutions()
 
 
-# def click_event(img, event, x, y, flags, params):
-def click_event(event, x, y, flags, params):
-
-    # checking for left mouse clicks
-    if event == cv2.EVENT_LBUTTONDOWN:
-
-        # displaying the coordinates
-        # on the Shell
-        print(x, " ", y)
-
-        # displaying the coordinates
-        # on the image window
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(img, str(x) + "," + str(y), (x, y), font, 1, (255, 0, 0), 2)
-        cv2.imshow("image", img)
-
-    # checking for right mouse clicks
-    if event == cv2.EVENT_RBUTTONDOWN:
-
-        # displaying the coordinates
-        # on the Shell
-        print(x, " ", y)
-
-        # displaying the coordinates
-        # on the image window
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        b = img[y, x, 0]
-        g = img[y, x, 1]
-        r = img[y, x, 2]
-        cv2.putText(
-            img, str(b) + "," + str(g) + "," + str(r), (x, y), font, 1, (255, 255, 0), 2
-        )
-        cv2.imshow("image", img)
 
 
-def testImageCropping(img1):
-
-    # image1 = ImageObj(INDUSTRYSAMPLE1)
-    # image2 = ImageObj(INDUSTRYSAMPLE2)
-
-    # if not testImageResolution():
-    #     return
-
-    # image1.cropImage2
-    cv2.namedWindow("image", cv2.WINDOW_NORMAL)
-
-    cv2.imshow("image", img1)
-    cv2.setMouseCallback("image", click_event)
-
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
-
-
-# class BlockCoordinates:
-#     def __init__(self, p1: list, p2: list):
-#         self.x1, self.y1 = p1
-#         self.x2, self.y2 = p2
-#         # self.type = type
-
-
-# def calLeftSlope(self):
-#     # call for calculating the TopLeft(p1) and BottomRight(p4) coordinates of the image
-#     # returns value of p1 and p4 respectively
-
-#     return [[self.x2, self.y1], [self.x1, self.y2]]
-
-# def calRightSlope(self):
-#     # call for calculating the TopRight(p2) and BottomLeft(p3) coordinates of the image
-#     # returns value of p2 and p3 respectively
-#     return [[self.x2, self.y1], [self.x1, self.y2]]
 
 
 class ImageBlock:
@@ -242,7 +174,7 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
         # print(img1.shape)
 
         # finding Image Contours
-        # dst = imageContour(img1.img, img2.img)
+        dst = ic.imageContour()
         # print(dst)
 
         # check mse
@@ -341,14 +273,14 @@ if __name__ == "__main__":
     # testImageResolution()
 
     # to find out coordinates on image
-    img1 = ImageObj(INDUSTRYSAMPLE1)
-    img = img1.img
-    testImageCropping(img)
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img = img1.img
+    # testImageCropping(img)
 
     # here
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img2 = ImageObj(INDUSTRYSAMPLE2)
-    # testImageBlock2(img1, img2)
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    img2 = ImageObj(INDUSTRYSAMPLE2)
+    testImageBlock2(img1, img2)
     # imgcheck = np.asarray(img1)
     # print(imgcheck)
     # highlight = np.zeros((img1.shape), dtype=np.int8)

@@ -210,6 +210,8 @@ class ImageObj:
         # cv2.destroyAllWindows()
 
 
+
+
 class ImageComparison:
     def __init__(self, img1: ImageObj, img2: ImageObj):
         self.img1 = img1
@@ -302,6 +304,30 @@ class ImageComparison:
         err /= float(img1.shape[0] * img1.shape[1])
 
         return err
+
+    def imageContour(self):
+        diff = cv2.absdiff(self.img1.img, self.img2.img)
+        grayscale = cv2.cvtColor(self.img1.img, cv2.COLOR_BGR2GRAY)
+
+        gray = cv2.cvtColor(diff, cv2.COLOR_BGR2GRAY)
+        blurr = cv2.GaussianBlur(gray, (3, 3), 0)
+        _, thresh = cv2.threshold(blurr, 10, 255, cv2.THRESH_BINARY)
+        dilated = cv2.erode(thresh, None, iterations=3)
+
+        # Finding Contour:
+        contours, _ = cv2.findContours(dilated, cv2.RETR_TREE, cv2.CHAIN_APPROX_NONE)
+        dst = cv2.drawContours(self.img1.img, contours, -1, (127, 127, 127), 2)
+
+        for contour in contours:
+            # print("p")
+            (x, y, w, h) = cv2.boundingRect(contour)
+            if cv2.contourArea(contour) < 100:
+                continue
+            dst = cv2.rectangle(self.img2.img, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
+        print("Image Resolution = ", self.img1.shape)
+        # cv2.imshow("DST", dst)
+        return x, y, w, h
 
 
 # CHECKING FILES BEFORE RUNNING THE CODE
