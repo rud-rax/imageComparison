@@ -6,7 +6,7 @@ import sys
 import os
 
 
-class ImageLabel(QLabel):
+class dropImageLabel(QLabel):
     def __init__(self):
         super().__init__()
         self.setAlignment(Qt.AlignCenter)
@@ -16,6 +16,13 @@ class ImageLabel(QLabel):
     def setPixmap(self, image):
         super().setPixmap(image)
 
+class ImageLabel(QLabel):
+    def __init__(self):
+        super().__init__()
+        self.setAlignment(Qt.AlignCenter)
+
+    def setPixmap(self, image):
+        super().setPixmap(image)
 
 class imgdrop1(QWidget):
     
@@ -30,28 +37,49 @@ class imgdrop1(QWidget):
         self.resize(800, 500)
         
         self.setAcceptDrops(True)
-        self.imageLabel1 = ImageLabel()
-        self.imageLabel2 = ImageLabel()
+
+        self.pccoelogo = ImageLabel()
+        self.set_image(self.pccoelogo, "logo/PCCoELOGO.png")
+
+        self.companylogo = ImageLabel()
+        self.set_image(self.companylogo, "logo/CompanyLOGO.png")
+
+        self.companyname = QLabel()
+        self.companyname.setText("Sigma")
+        self.companyname.resize(600,50)
+
+        self.imageLabel1 = dropImageLabel()
+        self.imageLabel2 = dropImageLabel()
         self.imageLabel2.hide()
         
-        layout = QVBoxLayout()
+        layout1 = QVBoxLayout()
+        layout2 = QHBoxLayout()
         
-        layout.addWidget(self.imageLabel1)
+        layout2.addWidget(self.pccoelogo)
+        layout2.addWidget(self.companyname)
+        layout2.addWidget(self.companylogo)
+        
+        layout1.addLayout(layout2)
+        
+
+        layout1.addWidget(self.imageLabel1)
         self.imageLabel1.setText("\n\n Drop Original Image Here \n\n")
         
-        layout.addWidget(self.imageLabel2)
+        layout1.addWidget(self.imageLabel2)
         self.imageLabel2.setText("\n\n Drop Created Image Here \n\n")
         self.imageLabel2.hide()
         
         self.confirmButton = QPushButton("Confirm")
-        layout.addWidget(self.confirmButton, 1)
+        layout1.addWidget(self.confirmButton, 1)
         self.confirmButton.setEnabled(False)
         
         self.compareButton = QPushButton("Compare")
-        layout.addWidget(self.compareButton, 1)
+        layout1.addWidget(self.compareButton, 1)
         self.compareButton.hide()
         
-        self.setLayout(layout)
+        
+
+        self.setLayout(layout1)
         print(self.children)
 
     def dragEnterEvent(self, event):
@@ -132,6 +160,7 @@ class imgdrop1(QWidget):
             self.imageLabel2.show()
 
     def Compare(self):
+        print("1")
         print("img1 = ",self.img1)
         print("img2 = ",self.img2)
         print("attach backend for comparison")
