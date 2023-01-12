@@ -4,6 +4,7 @@ import numpy as np
 import cv2
 import concurrent.futures
 import time
+from PIL import Image
 
 # CIRCLE_IMAGE = r"shapes_iamges\circle.jpg"
 # LONG_IMAGE = r"shapes_images\long_1x3.jpg"
@@ -50,8 +51,8 @@ def inOne(cordinates,img1,img2):
        
        dst=cv2.rectangle(img1,(x1,y1),(x2,y2),(0,0,0),10)
        dst=cv2.rectangle(img2,(x1,y1),(x2,y2),(0,0,0),10)
-       pixel_array1[y1:y2,x1:x2,0]=0
-       pixel_array2[y1:y2,x1:x2,0]=0
+       pixel_array1[y1:y2,x1:x2,2]=255
+       pixel_array2[y1:y2,x1:x2,2]=255
        
        
        
@@ -68,6 +69,19 @@ def inOne(cordinates,img1,img2):
    cv2.imshow("Image2",img2)
    cv2.waitKey(0)
    cv2.destroyAllWindows()
+   filepath1=  r"industrySample/img1.jpg"
+   filepath2=  r"industrySample/img2.jpg"
+   cv2.imwrite(filepath1,img1)
+   cv2.imwrite(filepath2,img2)
+   images = [
+    Image.open( "industrySample/" + f)
+    for f in ["img1.jpg","img2.jpg"]
+]
+   pdf_path= "Output.pdf"
+
+   images[0].save(
+    pdf_path, "PDF" ,resolution=100.0, save_all=True, append_images=images[1:]
+)
        
     
    
@@ -231,9 +245,10 @@ class ImageBlock:
         self.p2 = p2
 
     def showPoints(self):
+        pass
 
-        print(self.p1)
-        print(self.p2)
+        # print(self.p1)
+        # print(self.p2)
 
     def calculate(self):
         # call for calculating the alternate coordinates [leftTop , rightBottom]
