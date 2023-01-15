@@ -331,8 +331,10 @@ def testImageBlock2(img1, img2):
             print(difference_coordinates)
             differences.append(difference_coordinates)
 
-    print(differences)
+    # print(differences)
     print(f"Time taken {round(stop - start , 2)} seconds. ")
+
+    return differences
 
 
 if __name__ == "__main__":
@@ -341,14 +343,32 @@ if __name__ == "__main__":
     # testImageResolution()
 
     # to find out coordinates on image
-    img1 = ImageObj(INDUSTRYSAMPLE1)
-    img = img1.img
-    testImageCropping(img)
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img = img1.img
+    # testImageCropping(img)
 
     # here
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img2 = ImageObj(INDUSTRYSAMPLE2)
-    # testImageBlock2(img1, img2)
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    img2 = ImageObj(INDUSTRYSAMPLE2)
+    var = testImageBlock2(img1, img2)
+    # print(var)
+
+    l1 = var[0][0:2]
+    print(l1)
+    y1 = l1[0][0]
+    y2 = l1[0][1]
+    x1 = l1[1][0]
+    x2 = l1[1][1]
+
+    print(f"X1 = {x1} X2 = {x2} Y1 = {y1} Y2 = {y2}")
+
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    plot = cv2.rectangle(img1.img, (x1, y1), (x2, y2), (0, 0, 0), 10)
+    cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
+    cv2.imshow("Image", plot)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
+
     # imgcheck = np.asarray(img1)
     # print(imgcheck)
     # highlight = np.zeros((img1.shape), dtype=np.int8)
