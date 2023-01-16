@@ -1,0 +1,2 @@
+
+        print(thread.result())

@@ -1,3 +1,3 @@
     # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img = img1.img
-    # testImageCropping(img)
+    # img2 = ImageObj(INDUSTRYSAMPLE2)
+    # testImageBlock2(img1, img2)
