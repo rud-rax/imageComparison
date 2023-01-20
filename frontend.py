@@ -46,9 +46,9 @@ class imgdrop1(QWidget):
         self.companylogo = ImageLabel()
         self.set_image(self.companylogo, "logo/CompanyLOGO.png")
 
-        self.companyname = QLabel()
-        self.companyname.setText("Sigma")
-        self.companyname.resize(600, 50)
+        # self.companyname = QLabel()
+        # self.companyname.setText("Sigma")
+        # self.companyname.resize(600, 50)
 
         self.imageLabel1 = dropImageLabel()
         self.imageLabel2 = dropImageLabel()
@@ -58,7 +58,7 @@ class imgdrop1(QWidget):
         layout2 = QHBoxLayout()
 
         layout2.addWidget(self.pccoelogo)
-        layout2.addWidget(self.companyname)
+        # layout2.addWidget(self.companyname)
         layout2.addWidget(self.companylogo)
 
         layout1.addLayout(layout2)

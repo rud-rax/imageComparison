@@ -1,3 +1,7 @@
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img2 = ImageObj(INDUSTRYSAMPLE2)
-    # testImageBlock2(img1, img2)
+
+from PyQt5.QtGui import *
+from PyQt5.QtWidgets import *
+import qpageview
+import sys
+import os
+from ICM_test2 import *
