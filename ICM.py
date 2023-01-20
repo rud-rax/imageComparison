@@ -24,7 +24,7 @@ DIFFERENT_TEST_FILE_2 = r"images\test1.2.jpeg"
 CHECK_IMAGE_FILES = False
 
 
-# CHANGE RESIZING AND SCALING VARIABLES
+# CHANGE RESIZING AND SCALING VARIABLESimg_path
 RESIZE_RESOLUTION = (1000, 650)
 SCALE_PERCENTAGE = 150
 
@@ -63,7 +63,8 @@ class ImageObj:
             if self.checkImage():
                 return self.img.shape
         except FileNotFoundError as e:
-            print(e.__doc__)
+            #print(e.__doc__)
+            pass
 
     def resizeImage(self, reso=RESIZE_RESOLUTION, scale=None):
         if scale:
@@ -84,7 +85,7 @@ class ImageObj:
 
     def checkNegetiveThreshold(self, threshold=50):
 
-        print("DIFFERENCES AT -")
+        # print("DIFFERENCES AT -")
 
         numImg = np.asarray(self.img)
         diffList = []
@@ -95,7 +96,7 @@ class ImageObj:
 
                 if b >= threshold or g >= threshold or r >= threshold:
 
-                    print(f"{i} {j}")
+                    # print(f"{i} {j}")
                     diffList.append((i, j))
 
         return diffList
@@ -120,7 +121,7 @@ class ImageObj:
                 for j in range(self.shape[1]):
                     b, g, r = numImg[i][j]
                     if b <= threshold and g <= threshold and r <= threshold:
-                        print(f"{b} {g} {r} @ {i} {j}")
+                        # print(f"{b} {g} {r} @ {i} {j}")
                         # self.markPixel(i, j, 10, [255, 0, 0])
                         cropParam.append((i, j))
                         endLoop = True
@@ -145,7 +146,7 @@ class ImageObj:
                     b, g, r = numImg[i][j]
 
                     if b <= threshold and g <= threshold and r <= threshold:
-                        print(f"{b} {g} {r} @ {i} {j}")
+                        # print(f"{b} {g} {r} @ {i} {j}")
                         # self.markPixel(i, j, 10, [255, 0, 0])
                         cropParam.append((i, j))
                         endLoop = True
@@ -269,7 +270,7 @@ class ImageComparison:
         # cv2.imshow(image_difference)
 
         canvas = Image.fromarray(image_difference)
-        canvas.show()
+        # canvas.show()
 
         if save_fig:
             SAVE_IMG_PATH = r"images/diff_image1.jpg"
@@ -278,7 +279,7 @@ class ImageComparison:
             diffImg = ImageObj(SAVE_IMG_PATH)
 
             diffImg.checkNegetiveThreshold()
-            print(diffImg.getResolution())
+            #print(diffImg.getResolution())
         # b, g, r = cv2.split(image_difference)
         # print(f"B = {b} , G = {g} , R = {r}")
 
