@@ -273,21 +273,21 @@ if __name__ == "__main__":
     # testImageResolution()
 
     # to find out coordinates on image
-    # img1 = ImageObj(INDUSTRYSAMPLE1)
-    # img = img1.img
-    # testImageCropping(img)
+    img1 = ImageObj(INDUSTRYSAMPLE1)
+    img = img1.img
+    testImageCropping(img)
 
     # here
-    img1 = ImageObj(INDUSTRYSAMPLE1)
-    img2 = ImageObj(INDUSTRYSAMPLE2)
-    testImageBlock2(img1, img2)
-    # imgcheck = np.asarray(img1)
-    # print(imgcheck)
-    # highlight = np.zeros((img1.shape), dtype=np.int8)
+    # img1 = ImageObj(INDUSTRYSAMPLE1)
+    # img2 = ImageObj(INDUSTRYSAMPLE2)
+    # testImageBlock2(img1, img2)
+    # # imgcheck = np.asarray(img1)
+    # # print(imgcheck)
+    # # highlight = np.zeros((img1.shape), dtype=np.int8)
 
-    # print(img1.shape)
-    # print(img2.shape)
+    # # print(img1.shape)
+    # # print(img2.shape)
 
-    # testImageBlockComparsion()
+    # # testImageBlockComparsion()
 
-    # img = ImageObj()
+    # # img = ImageObj()
