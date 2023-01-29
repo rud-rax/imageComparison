@@ -10,7 +10,8 @@ img = cv2.imread(FILEPATH)
 # PRINT RESOLUTION OF IMAGE
 print(img.shape)
 
-# DISPLAY THE IMAGE ON THE WINDOW
+# DISPLAY THE IM""AGE ON THE WINDOW
+cv2.namedWindow("Image", cv2.WINDOW_NORMAL)
 cv2.imshow("Image", img)
 
 # HALT THE PROGRAM
@@ -21,15 +22,16 @@ cv2.destroyAllWindows()
 
 # CONVERT IMAGE INTO NUMPY ARRAY
 imgarray = np.asarray(img)
+
 # print(imgarray)
 # df = pd.DataFrame(imgarray)
 # print(df.head())
 
-for shade in imgarray:
-    print(shade)
+# for shade in imgarray:
+#     print(shade)
 
-    break
-print(len(shade))
+#     break
+# print(len(shade))
 
 
 # CONVERT NP ARRAY BACK TO IMAGE
