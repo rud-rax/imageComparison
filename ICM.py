@@ -5,6 +5,9 @@ from PIL import Image
 import concurrent.futures
 import time
 
+# CODE FOR VERSION 2
+# from extractObjectsFeature import extractObjects1
+
 
 
 
