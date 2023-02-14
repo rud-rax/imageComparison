@@ -1,5 +1,5 @@
 from ICM import *
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 import numpy as np
 import cv2
 import concurrent.futures
@@ -37,6 +37,8 @@ i1 = cv2.imread(INDUSTRYSAMPLE1)
 BLOCKSIZE = 200
 MSE_THRESHOLD = 1000
 
+# delete the below line in development
+img = None
 
 def inOne(cordinates, img1, img2):
     # print(cordinates)
@@ -155,8 +157,6 @@ def testImageResolution():
     return ic.checkImageResolutions()
 
 
-<<<<<<< HEAD
-=======
 # def click_event(img, event, x, y, flags, params):
 def click_event(event, x, y, flags, params):
 
@@ -190,7 +190,6 @@ def click_event(event, x, y, flags, params):
             img, str(b) + "," + str(g) + "," + str(r), (x, y), font, 1, (255, 255, 0), 2
         )
         cv2.imshow("image", img)
->>>>>>> e746525b55dab43893e5bbc5facb68af13a7f61e
 
 
 
@@ -266,11 +265,7 @@ def testImageBlockComparsion(img1, img2, ib: ImageBlock):
         # print(img1.shape)
 
         # finding Image Contours
-<<<<<<< HEAD
-        dst = ic.imageContour()
-=======
         dst = imageContour(img1.img, img2.img)
->>>>>>> e746525b55dab43893e5bbc5facb68af13a7f61e
         # print(dst)
 
         # check mse
@@ -382,13 +377,9 @@ if __name__ == "__main__":
     # here
     img1 = ImageObj(INDUSTRYSAMPLE1)
     img2 = ImageObj(INDUSTRYSAMPLE2)
-<<<<<<< HEAD
-    testImageBlock2(img1, img2)
-=======
     cordinates = testImageBlock2(img1, img2)
     # All diff in one image
     inOne(cordinates, img1.img, img2.img)
->>>>>>> e746525b55dab43893e5bbc5facb68af13a7f61e
     # imgcheck = np.asarray(img1)
     # print(imgcheck)
     # highlight = np.zeros((img1.shape), dtype=np.int8)
