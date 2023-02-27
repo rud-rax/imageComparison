@@ -2,6 +2,8 @@ import cv2
 import configparser
 import os
 
+from extractBorder import *
+
 DEFAULT_CONFIG_FILE_PATH = r"extractObjectsFeature/config.ini"
 
 class ImageDrawingExtraction :
@@ -137,6 +139,18 @@ class ImageDrawingExtraction :
             cv2.imshow('Image', self.image)
 
         
+
+        extractBorderObj = extractImageBorder(self.image)
+        self.image = extractBorderObj.extractBorder()
+
+        try :
+            if not self.image.any() :
+                print("ERROR : Couldnt Find the Image Border.")
+                return
+        except Exception as e :
+            print(f"{e}")
+            return 
+            
         # Create a copy of Image
         self.original = self.image.copy()
         
