@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import *
 from pdf2image import convert_from_path
 import sys
 import os
+# from PyQt5.QtWebEngineWidgets import *
 
 class Home(QWidget):
     def __init__(self):
@@ -25,7 +26,7 @@ class Home(QWidget):
         self.appNameLabel = QLabel(self.header)
         font = QFont()
         font.setFamily("Ubuntu Condensed")
-        font.setPointSize(34)
+        font.setPointSize(30)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -65,16 +66,16 @@ class Home(QWidget):
         self.body1.setFrameShadow(QFrame.Raised)
 
         self.aboutLabel = QLabel(self.body1)
-        self.aboutLabel.setGeometry(QRect(1600, 10, 260, 20))
+        self.aboutLabel.setGeometry(QRect(1550, 10, 350, 20))
         font.setPointSize(10)
         font.setItalic(True)
         self.aboutLabel.setFont(font)
         self.aboutLabel.setText("* Contact us at swati.chandurkar@gmail.com")
 
         self.descLabel1 = QLabel(self.body1)
-        self.descLabel1.setGeometry(QRect(30, 60, 1500, 35))
+        self.descLabel1.setGeometry(QRect(30, 40, 1700, 60))
         font.setFamily("aakar")
-        font.setPointSize(24)
+        font.setPointSize(22)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -82,7 +83,7 @@ class Home(QWidget):
         self.descLabel1.setText("\"Where You can View, Measure, Section, Analyze, Compare, and Export CAD Files !\"")
 
         self.descLabel2 = QLabel(self.body1)
-        self.descLabel2.setGeometry(QRect(30, 120, 1500, 600))
+        self.descLabel2.setGeometry(QRect(30, 120, 1500, 700))
         font.setPointSize(14)
         font.setBold(False)
         font.setWeight(50)
@@ -107,7 +108,7 @@ class Home(QWidget):
                                 "This tool works for Catia drawings (.CATDrawing) and 2D PDF drawings.")
 
         self.sampleImg = QLabel(self.body1)
-        self.sampleImg.setGeometry(QRect(1200, 150, 650, 350))
+        self.sampleImg.setGeometry(QRect(1250, 150, 640, 350))
         self.sampleImg.setText("")
         self.sampleImg.setPixmap(QPixmap("outputSS.png"))
         self.sampleImg.setScaledContents(True)
@@ -147,7 +148,7 @@ class Compare(QWidget):
         self.appNameLabel = QLabel(self.header)
         font = QFont()
         font.setFamily("Ubuntu Condensed")
-        font.setPointSize(34)
+        font.setPointSize(30)
         font.setBold(True)
         font.setItalic(True)
         font.setWeight(75)
@@ -187,12 +188,12 @@ class Compare(QWidget):
         self.body1.setFrameShadow(QFrame.Raised)
 
         self.aboutLabel = QLabel(self.body1)
-        self.aboutLabel.setGeometry(QRect(1600, 10, 260, 20))
+        self.aboutLabel.setGeometry(QRect(1550, 10, 350, 20))
         font.setPointSize(10)
         font.setItalic(True)
         self.aboutLabel.setFont(font)
         self.aboutLabel.setText("* Contact us at swati.chandurkar@gmail.com")
-        
+
         self.descLabel1 = QLabel(self.body1)
         self.descLabel1.setGeometry(QRect(30, 60, 650, 30))
         font.setFamily("aakar")
@@ -212,14 +213,14 @@ class Compare(QWidget):
                                 "4. Comparision output is ready in PDF form\n")
 
         self.descLabel3 = QLabel(self.body1)
-        self.descLabel3.setGeometry(QRect(1000, 60, 650, 55))
+        self.descLabel3.setGeometry(QRect(1000, 60, 700, 55))
         font.setPointSize(16)
         font.setItalic(True)
         self.descLabel3.setFont(font)
         self.descLabel3.setText("The results are computed and shown with the following:\n")
 
         self.descLabel4 = QLabel(self.body1)
-        self.descLabel4.setGeometry(QRect(1000, 115, 650, 72))
+        self.descLabel4.setGeometry(QRect(1000, 115, 700, 85))
         font.setPointSize(14)
         font.setItalic(True)
         self.descLabel4.setFont(font)
@@ -250,7 +251,7 @@ class Compare(QWidget):
         self.dropImgLabel1.setFixedHeight(400)
         self.dropImgLabel1.setScaledContents(True)
         
-        self.browse1 = QPushButton("Browsefor Drawing 1")
+        self.browse1 = QPushButton("Browse for Drawing 1")
         self.browse1.clicked.connect(lambda: self.getImage(self.dropImgLabel1))
 
         imageLayout1.addWidget(self.dropImgLabel1)
@@ -282,7 +283,9 @@ class Compare(QWidget):
 
 
     def getImage(self, label):
-        fname = QFileDialog.getOpenFileName(self, 'Open file', "Image files (*.jpg *.gif)")
+        fname = QFileDialog.getOpenFileName(self, 'Open file', 'c\\',"All files (*.*)")
+        # fname=QFileDialog.getOpenFileName(None, filter="PDF (*.pdf)")
+        # filename, _ = QFileDialog.getOpenFileName(None, filter="PDF (*.pdf)")
         file_path = fname[0]
         print("getImage", self, file_path)
         file_path = self.set_image(label, file_path)
