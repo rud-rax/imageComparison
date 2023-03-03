@@ -109,7 +109,7 @@ class Home(QWidget):
         self.sampleImg = QLabel(self.body1)
         self.sampleImg.setGeometry(QRect(1200, 150, 650, 350))
         self.sampleImg.setText("")
-        self.sampleImg.setPixmap(QPixmap("FrontTest/SampleImg.png"))
+        self.sampleImg.setPixmap(QPixmap("outputSS.png"))
         self.sampleImg.setScaledContents(True)
 
         mainLayout = QVBoxLayout()
