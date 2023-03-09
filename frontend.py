@@ -4,7 +4,6 @@ from PyQt5.QtWidgets import *
 from pdf2image import convert_from_path
 import sys
 import os
-# from PyQt5.QtWebEngineWidgets import *
 
 class Home(QWidget):
     def __init__(self):
@@ -118,7 +117,7 @@ class Home(QWidget):
         mainLayout.addWidget(self.body1)
 
         self.setLayout(mainLayout)
-        print(self.children)
+        # print(self.children)
 
 class Compare(QWidget):
     def __init__(self):
@@ -239,7 +238,6 @@ class Compare(QWidget):
         self.ComparePushBtn.clicked.connect(lambda: self.Compare())
         self.ComparePushBtn.setEnabled(True)
 
-
         body2 = QHBoxLayout()
         imageLayout1 = QVBoxLayout()
         imageLayout2 = QVBoxLayout()
@@ -279,21 +277,18 @@ class Compare(QWidget):
         
 
         self.setLayout(mainLayout)
-        print(self.children)
-
+        # print(self.children)
 
     def getImage(self, label):
-        fname = QFileDialog.getOpenFileName(self, 'Open file', 'c\\',"All files (*.*)")
-        # fname=QFileDialog.getOpenFileName(None, filter="PDF (*.pdf)")
-        # filename, _ = QFileDialog.getOpenFileName(None, filter="PDF (*.pdf)")
+        fname = QFileDialog.getOpenFileName(self, 'Open file', 'c\\', "All files (*.*)")
         file_path = fname[0]
-        print("getImage", self, file_path)
+        # print("getImage", self, file_path)
         file_path = self.set_image(label, file_path)
     
     def set_image(self, label, file_path):
-        print("set_image method: ", label, file_path)
+        # print("set_image method: ", label, file_path)
         if os.path.splitext(file_path)[-1].lower() == ".pdf":
-            file_path = self.convertPDF2JPG(file_path, "page")
+            file_path = self.convertPDF2JPG(file_path, label)
 
         if QPixmap(file_path) is not None:
             imageWidth, imageHeight = QPixmap(file_path).width(), QPixmap(file_path).height()
@@ -306,13 +301,13 @@ class Compare(QWidget):
             return(file_path)
 
     def setFilePath(self, file_path, label):
-        print("setFilePath method")
+        # print("setFilePath method")
         if label == self.dropImgLabel1:
             self.img1 = file_path
-            print("img1=", self.img1)
+            # print("img1=", self.img1)
         elif label == self.dropImgLabel2:
             self.img2 = file_path
-            print("img2=", self.img2)
+            # print("img2=", self.img2)
         else:
                 msg = QMessageBox()
                 msg.setIcon(QMessageBox.Critical)
@@ -324,16 +319,18 @@ class Compare(QWidget):
                 msg.addButton(QMessageBox.Ok)
                 msg.exec_()
 
-    def convertPDF2JPG(self, file_path, savename = ""):
-        print("convertPDF2JPG method")
+    def convertPDF2JPG(self, file_path, label):
+        # print("convertPDF2JPG method")
+        if label == self.dropImgLabel1:
+            savename = "img1"
+        else:
+            savename = "img2"
+
         images = convert_from_path(file_path)
         for i in range(len(images)):
             new_file_path = "industrySample/" + savename + str(self.count) + ".jpg"
             images[i].save(new_file_path, "JPEG")
             return(new_file_path)
-    
-    
-
 
     def Compare(self):
         if self.img1 == '' or self.img2 == '':
@@ -346,7 +343,7 @@ class Compare(QWidget):
             msg.setWindowTitle("Error")
             msg.addButton(QMessageBox.Ok)
             msg.exec_()
-        print("Compare Method")
+        # print("Compare Method")
         print("img1 = ", self.img1)
         print("img2 = ", self.img2)
         print("attach backend for comparison")
